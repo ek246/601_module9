@@ -56,13 +56,8 @@ jobs:
       - name: Build image
         run: docker build -t app:test .
         
-      - name: Check installed package versions
-        run: |
-          docker run --rm app:test python -c "from importlib.metadata import version; print('msgpack:', version('msgpack')); print('setuptools:', version('setuptools')); print('urllib3:', version('urllib3'))"
-      - name: Inspect pip embedded SBOM
-        run: |
-          docker run --rm app:test sh -c \
-            "cat /usr/local/lib/python3.11/site-packages/pip/_vendor/bom.cdx.json"
+      
+      
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
@@ -71,26 +66,7 @@ jobs:
           exit-code: '1'
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
-      - name: Display vulnerable package details
-        if: always()
-        run: |
-          python - <<'PY'
-          import json
-
-          with open("trivy-results.json") as file:
-              report = json.load(file)
-
-          for result in report.get("Results", []):
-              for vuln in result.get("Vulnerabilities", []):
-                  if vuln["PkgName"] in ("msgpack", "setuptools", "urllib3"):
-                      print({
-                          "package": vuln.get("PkgName"),
-                          "installed": vuln.get("InstalledVersion"),
-                          "fixed": vuln.get("FixedVersion"),
-                          "path": vuln.get("PkgPath"),
-                          "vulnerability": vuln.get("VulnerabilityID")
-                      })
-          PY
+     
   deploy:
     needs: security
     if: github.ref == 'refs/heads/main'
