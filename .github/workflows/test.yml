@@ -59,6 +59,10 @@ jobs:
       - name: Check installed package versions
         run: |
           docker run --rm app:test python -c "from importlib.metadata import version; print('msgpack:', version('msgpack')); print('setuptools:', version('setuptools')); print('urllib3:', version('urllib3'))"
+      - name: Inspect pip embedded SBOM
+        run: |
+          docker run --rm app:test sh -c \
+            "cat /usr/local/lib/python3.11/site-packages/pip/_vendor/bom.cdx.json"
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
