@@ -68,6 +68,14 @@ jobs:
           exit-code: '0'
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
+      - name: Display Trivy report
+        if: always()
+        run: |
+          if [ -f trivy-results.json ]; then
+            cat trivy-results.json
+          else
+            echo "Trivy report was not generated."
+          fi
   deploy:
     needs: security
     if: github.ref == 'refs/heads/main'
