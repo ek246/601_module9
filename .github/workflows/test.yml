@@ -55,7 +55,10 @@ jobs:
       
       - name: Build image
         run: docker build -t app:test .
-      
+        
+      - name: Check installed package versions
+        run: |
+          docker run --rm app:test python -c "from importlib.metadata import version; print('msgpack:', version('msgpack')); print('setuptools:', version('setuptools')); print('urllib3:', version('urllib3'))"
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
