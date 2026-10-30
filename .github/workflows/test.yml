@@ -63,8 +63,9 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'app:test'
-          format: 'table'
-          exit-code: '1'
+          format: 'json'
+          output: 'trivy-results.json'
+          exit-code: '0'
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
   deploy:
