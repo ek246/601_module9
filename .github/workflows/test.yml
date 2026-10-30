@@ -68,14 +68,26 @@ jobs:
           exit-code: '0'
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
-      - name: Display Trivy report
+      - name: Display vulnerable package details
         if: always()
         run: |
-          if [ -f trivy-results.json ]; then
-            cat trivy-results.json
-          else
-            echo "Trivy report was not generated."
-          fi
+          python - <<'PY'
+          import json
+
+          with open("trivy-results.json") as file:
+              report = json.load(file)
+
+          for result in report.get("Results", []):
+              for vuln in result.get("Vulnerabilities", []):
+                  if vuln["PkgName"] in ("msgpack", "setuptools", "urllib3"):
+                      print({
+                          "package": vuln.get("PkgName"),
+                          "installed": vuln.get("InstalledVersion"),
+                          "fixed": vuln.get("FixedVersion"),
+                          "path": vuln.get("PkgPath"),
+                          "vulnerability": vuln.get("VulnerabilityID")
+                      })
+          PY
   deploy:
     needs: security
     if: github.ref == 'refs/heads/main'
