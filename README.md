@@ -11,7 +11,7 @@ Each ".sql" file contains a command executed in pgAdmin and corresponds with an 
 The scripts show:
 
 
-Table Creation: Creating the users and calculations tables and establishing their foreign key relationship.
+**Table Creation:** Creating the users and calculations tables and establishing their foreign key relationship.
 
 **Data Insertion:** Using INSERT INTO to add records.
 
