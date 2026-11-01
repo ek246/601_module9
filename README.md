@@ -13,15 +13,15 @@ The scripts show:
 
 Table Creation: Creating the users and calculations tables and establishing their foreign key relationship.
 
-Data Insertion: Using INSERT INTO to add records.
+**Data Insertion:** Using INSERT INTO to add records.
 
-Data Retrieval: Using SELECT to retrieve records from the database.
+**Data Retrieval:** Using SELECT to retrieve records from the database.
 
-JOIN Queries: Retrieving related information from the users and calculations tables.
+**JOIN Queries:** Retrieving related information from the users and calculations tables.
 
-Data Updates: Using UPDATE to modify existing records.
+**Data Updates:** Using UPDATE to modify existing records.
 
-Data Deletion: Using DELETE to remove records.
+**Data Deletion:** Using DELETE to remove records.
 
 ## Documentation
 
